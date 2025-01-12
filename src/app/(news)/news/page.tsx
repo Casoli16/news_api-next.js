@@ -167,8 +167,8 @@ export default function DetailNewPage() {
 
   if (data.length === 0) {
     return (
-      <div className="p-10 flex flex-col justify-center items-center h-screen ">
-        <p className="font-bold text-center sm:text-md md:text-xl">
+      <div className="p-10 flex flex-col justify-center items-center h-screen text-center ">
+        <p className="font-bold sm:text-md md:text-xl">
           Actualmente no se encuentran disponibles los datos de esta noticia
         </p>
         <p className="text-slate-600">
@@ -179,7 +179,7 @@ export default function DetailNewPage() {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row p-4 sm:p-10 lg:pl-16 lg:pt-8 lg:pb-14 gap-8 lg:gap-12">
+    <div className="flex flex-col lg:flex-row p-4 sm:p-10 lg:pl-16 lg:pt-12 lg:pb-14 gap-8 lg:gap-12">
       {data.map((article, index) => {
         const date = new Date(article.publishedAt);
         const formattedDate = date.toLocaleDateString("es-ES", {

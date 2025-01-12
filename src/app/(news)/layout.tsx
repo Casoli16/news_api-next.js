@@ -1,19 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { Providers } from "../provider";
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  Input,
-} from "@nextui-org/react";
-import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ThemeSwitcher from "../../components/themeSwitcher";
 import { TopMenu } from "@/src/components/ui/topMenu";
+import { Footer } from "@/src/components/ui/footer";
 
 interface SearchIconProps {
   size?: number;
@@ -73,45 +65,15 @@ export default function WebLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <Providers>
+      {/* NavBar */}
       <TopMenu />
       <div className="bg-white dark:bg-gray-800 text-black dark:text-white">
-        <div className="flex flex-row justify-end pr-4 pt-4 sm:pr-8 sm:pt-8">
-          <ThemeSwitcher />
-        </div>
+        {/* Button for the change of theme (Dark/Light)*/}
+        <ThemeSwitcher />
         {children}
       </div>
       {/* Footer */}
-      <footer className="bg-gray-100 dark:bg-gray-900 text-black dark:text-white pt-5">
-        <div className="flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-56 p-5">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <Image src={"/icon.png"} alt="logo" width={60} height={10} />
-          </div>
-
-          {/* Título principal */}
-          <div className="text-center lg:text-left">
-            <p className="text-2xl font-bold">Breaking News</p>
-            <p>Las noticias más actuales a nivel mundial</p>
-          </div>
-
-          {/* Categorías */}
-          <div className="text-center lg:text-left">
-            <p className="text-lg font-bold">
-              Descubre las noticias de tu gusto
-            </p>
-            <div className="flex flex-col gap-1">
-              <p>Entretenimiento</p>
-              <p>Salud</p>
-              <p>Tecnología</p>
-              <p>Negocios</p>
-              <p>Ciencias</p>
-            </div>
-          </div>
-        </div>
-        <p className="text-center p-5 text-sm">
-          © 2025 Breaking News. All Rights Reserved.
-        </p>
-      </footer>
+      <Footer />
     </Providers>
   );
 }

@@ -124,7 +124,7 @@ export default function CategoryPage({ params }: Props) {
   }
 
   return (
-    <div className="pl-16 pt-5 pb-14">
+    <div className="pl-16 pt-12 pb-14">
       <p className="text-sm">Categoría</p>
       <p className="text-2xl text-slate-600 font-bold">{spanishCategory}</p>
       {data.map((item, index) => (

@@ -115,7 +115,7 @@ export default function SearchPage({ params }: Props) {
 
   return (
     <div>
-      <div className="pl-16 pt-8 pb-12">
+      <div className="pl-16 pt-12 pb-12">
         <div className="flex flex-row items-center gap-3">
           <FaSearch />
           <p className="text-xl font-bold">Resultados de tu búsqueda</p>

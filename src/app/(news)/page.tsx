@@ -15,34 +15,6 @@ interface ApiResponse {
   articles: NewsInterface[]; //La estructura de los datos a recibir se encuentra en NewInterface[];
 }
 
-//Función que manda la petición a la api
-const fetchNews = async (category: string) => {
-  //Accedemos a la api key.
-  const apiKey = process.env.NEXT_PUBLIC_NEWS_API_KEY;
-
-  //Revisamos si la api key viene bien, de lo contrario envia el mensaje de error
-  if (!apiKey) {
-    throw new Error("API key is missing");
-  }
-
-  //Enviamos la petición para la api
-  const response = await fetch(
-    `https://newsapi.org/v2/top-headlines?category=${category}&apiKey=${apiKey}&pageSize=20`
-  );
-
-  //Verificamos si la respuesta de la api vino bien, de lo contrario mandamos un mensaje con el estatus recibido de la api
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message);
-  }
-
-  //Convertimos la respuesta de la api a formato json
-  const jsonData: ApiResponse = await response.json();
-
-  //Retornamos la data recibida de la api
-  return jsonData.articles;
-};
-
 export default function Page() {
   const [data, setData] = useState<NewsInterface[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -50,14 +22,33 @@ export default function Page() {
 
   //UseEffect Se ejecuta al cargar la web
   useEffect(() => {
-    //Funcion encargada de manejar el llamado a la funcion fetchNews();
-    const fetchData = async () => {
+    //Función que manda la petición a la api
+    const fetchNews = async () => {
+      //Accedemos a la api key.
+      const apiKey = process.env.NEXT_PUBLIC_NEWS_API_KEY;
+
+      //Revisamos si la api key viene bien, de lo contrario envia el mensaje de error
+      if (!apiKey) {
+        throw new Error("API key is missing");
+      }
+
       try {
-        const categories = ["technology", "sports"];
-        const promises = categories.map((category) => fetchNews(category));
-        const results = await Promise.all(promises);
-        const combinedData = results.flat();
-        setData(combinedData);
+        //Enviamos la petición para la api
+        const response = await fetch(
+          `https://newsapi.org/v2/top-headlines?category=general&apiKey=${apiKey}&pageSize=20`
+        );
+
+        //Verificamos si la respuesta de la api vino bien, de lo contrario mandamos un mensaje con el estatus recibido de la api
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
+        }
+
+        //Convertimos la respuesta de la api a formato json
+        const jsonData: ApiResponse = await response.json();
+
+        //Retornamos la data recibida de la api
+        setData(jsonData.articles);
       } catch (error) {
         setError((error as Error).message);
       } finally {
@@ -65,7 +56,7 @@ export default function Page() {
       }
     };
 
-    fetchData();
+    fetchNews();
   }, []);
 
   if (loading) {
@@ -91,7 +82,7 @@ export default function Page() {
   }
 
   return (
-    <div className="p-4 pb-10  md:pl-16 md:pb-20">
+    <div className="p-4 pt-12 pb-10  md:pl-16 md:pb-20">
       <p className="text-xl md:text-2xl font-bold">
         Las últimas noticias internacionales y nacionales
       </p>
