@@ -14,7 +14,6 @@ export default function ThemeSwitcher() {
   return (
     //If the theme is equal to dark then the theme will change to light, otherwise it will change to light.
     //will change to dark.
-
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       className="

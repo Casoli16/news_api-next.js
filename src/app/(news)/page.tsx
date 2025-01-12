@@ -32,7 +32,8 @@ const fetchNews = async (category: string) => {
 
   //Verificamos si la respuesta de la api vino bien, de lo contrario mandamos un mensaje con el estatus recibido de la api
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    const errorData = await response.json();
+    throw new Error(errorData.message);
   }
 
   //Convertimos la respuesta de la api a formato json
@@ -77,24 +78,26 @@ export default function Page() {
 
   if (error) {
     return (
-      <div className="flex flex-col justify-center items-center h-screen">
-        <h1 className="text-xl font-bold">
+      <div className="flex flex-col justify-center h-screen text-center p-5">
+        <p className="text-xl font-bold">
           Ha ocurrido un error al cargar los datos
-        </h1>
-        <p className="text-sm text-slate-500">
+        </p>
+        <p className=" text-slate-500">
           Por favor intentalo nuevamente más tarde
         </p>
-        <p>{error}</p>
+        <p className="text-sm mt-2">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="p-4 pb-10 mb-8 md:pl-16">
+    <div className="p-4 pb-10  md:pl-16 md:pb-20">
       <p className="text-xl md:text-2xl font-bold">
         Las últimas noticias internacionales y nacionales
       </p>
-      <p className="text-sm md:text-base">Encuentra las noticias del último momento.</p>
+      <p className="text-sm md:text-base">
+        Encuentra las noticias del último momento.
+      </p>
       <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 mt-6 lg:mt-8">
         {/* Sección principal de noticias */}
         <div className="w-full lg:w-3/4">
@@ -115,7 +118,7 @@ export default function Page() {
             ))}
           </div>
         </div>
-  
+
         {/* Sección de categorías */}
         <div className="w-full lg:w-1/4">
           <h2 className="text-lg md:text-xl font-bold mb-4">Categorías</h2>
@@ -154,5 +157,5 @@ export default function Page() {
         </div>
       </div>
     </div>
-  );  
+  );
 }

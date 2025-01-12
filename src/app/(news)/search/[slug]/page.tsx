@@ -56,10 +56,13 @@ export default function SearchPage({ params }: Props) {
           )}"&apiKey=${apiKey}&pageSize=20`
         );
 
-        if (!response.ok)
-          throw new Error(`HTTP error! Status: ${response.status}`);
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
+        }
 
         const jsonData: ApiResponse = await response.json();
+
         setData(jsonData.articles);
       } catch (error) {
         setError((error as Error).message);
@@ -98,14 +101,14 @@ export default function SearchPage({ params }: Props) {
 
   if (error) {
     return (
-      <div className="flex flex-col justify-center items-center h-screen">
-        <h1 className="text-xl font-bold">
+      <div className="flex flex-col justify-center h-screen text-center p-5">
+        <p className="text-xl font-bold">
           Ha ocurrido un error al cargar los datos
-        </h1>
-        <p className="text-sm text-slate-500">
+        </p>
+        <p className=" text-slate-500">
           Por favor intentalo nuevamente más tarde
         </p>
-        <p>{error}</p>
+        <p className="text-sm mt-2">{error}</p>
       </div>
     );
   }
@@ -128,8 +131,8 @@ export default function SearchPage({ params }: Props) {
           </div>
         </div>
         {data.length === 0 ? (
-          <div className="flex flex-col items-center mt-20">
-            <p className="text-xl font-bold mb-5">
+          <div className="flex flex-col items-center p-20">
+            <p className="sm:text-md md:text-xl font-bold mb-5 text-center">
               No se encontraron resultados para tu búsqueda.
             </p>
             <FaSearch size={30} />

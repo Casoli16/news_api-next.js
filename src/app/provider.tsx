@@ -6,6 +6,7 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 //Wraps the children component in a NextUIProvider so that the components of the library of Next UI
 export function Providers({ children }: { children: React.ReactNode }) {
+  
   return (
     //Wraps the entire NextUIProvider component inside the NextThemeProvider so that it can be applied.
     //theme change on the site (dark mode / light mode)

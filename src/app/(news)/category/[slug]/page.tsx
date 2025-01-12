@@ -84,7 +84,8 @@ export default function CategoryPage({ params }: Props) {
           );
 
           if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            const errorData = await response.json();
+            throw new Error(errorData.message);
           }
 
           const jsonData: ApiResponse = await response.json();
@@ -110,14 +111,14 @@ export default function CategoryPage({ params }: Props) {
 
   if (error) {
     return (
-      <div className="flex flex-col justify-center items-center h-screen">
-        <h1 className="text-xl font-bold">
+      <div className="flex flex-col justify-center h-screen text-center p-5">
+        <p className="text-xl font-bold">
           Ha ocurrido un error al cargar los datos
-        </h1>
-        <p className="text-sm text-slate-500">
+        </p>
+        <p className=" text-slate-500">
           Por favor intentalo nuevamente más tarde
         </p>
-        <p>{error}</p>
+        <p className="text-sm mt-2">{error}</p>
       </div>
     );
   }
