@@ -77,6 +77,7 @@ export const TopMenu = () => {
     <Navbar isBordered className="dark:bg-gray-900 text-black dark:text-white">
       <NavbarContent justify="start">
         <NavbarBrand>
+          <Link href={'../'}>
           <Image
             src={"/icon.png"}
             width={30}
@@ -84,6 +85,7 @@ export const TopMenu = () => {
             alt="icon"
             className="mr-5"
           />
+          </Link>
           <Link href={"../"}>
             <p className="hidden sm:block font-bold text-inherit text-xl">
               Breaking news
