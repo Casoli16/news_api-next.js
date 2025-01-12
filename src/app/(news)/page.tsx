@@ -113,7 +113,7 @@ export default function Page() {
           <div className="grid grid-cols-1 gap-4">
             <StaticCard
               title="Entretenimiento"
-              image="/cards/entertaiment.jpg"
+              image="/cards/entertainment.jpg"
               path="/category/entertainment"
               color="dark"
             />
@@ -137,7 +137,7 @@ export default function Page() {
             />
             <StaticCard
               title="Ciencias"
-              image="/cards/scient.jpg"
+              image="/cards/science.jpg"
               path="/category/science"
               color="white"
             />
