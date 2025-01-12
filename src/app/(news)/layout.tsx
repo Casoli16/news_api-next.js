@@ -1,3 +1,4 @@
+// To be executed client-side
 "use client";
 
 import { Providers } from "../provider";
@@ -15,6 +16,7 @@ interface SearchIconProps {
   [key: string]: any;
 }
 
+//Icon for the search input
 export const SearchIcon: React.FC<SearchIconProps> = ({
   size = 24,
   strokeWidth = 1.5,
@@ -52,12 +54,12 @@ export const SearchIcon: React.FC<SearchIconProps> = ({
 };
 
 export default function WebLayout({ children }: { children: React.ReactNode }) {
-  const [search, setSearch] = useState(""); // Estado para almacenar el texto del buscador
-  const router = useRouter(); // Hook para manejar la navegación
+  const [search, setSearch] = useState(""); // State to store the browser text
+  const router = useRouter(); // Hook to manage navigation
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && search.trim()) {
-      // Navega a la ruta con el término de búsqueda como query
+      // Navigates to the path with the search term as query
       router.push(`/search/${encodeURIComponent(search)}`);
       setSearch("");
     }
@@ -68,7 +70,7 @@ export default function WebLayout({ children }: { children: React.ReactNode }) {
       {/* NavBar */}
       <TopMenu />
       <div className="bg-white dark:bg-gray-800 text-black dark:text-white">
-        {/* Button for the change of theme (Dark/Light)*/}
+        {/* Button for change of theme (Dark/Light)*/}
         <ThemeSwitcher />
         {children}
       </div>

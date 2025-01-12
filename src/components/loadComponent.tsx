@@ -3,6 +3,6 @@ import {Spinner} from "@nextui-org/react";
 
 export const Loading = () => {
     return(
-        <Spinner color="default" label="Cargando..." labelColor="foreground" />
+        <Spinner color="primary" label="Cargando..." labelColor="primary" />
     )
 }

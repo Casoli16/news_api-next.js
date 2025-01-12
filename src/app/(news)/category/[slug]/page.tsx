@@ -1,3 +1,4 @@
+// To be executed client-side
 "use client";
 
 import { HorizontalCard } from "@/src/components/cards/horizontalCard";
@@ -6,32 +7,33 @@ import { NewsInterface } from "@/src/interfaces/NewsInterface";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-// Describimos cómo debe ser el parámetro que recibe esta pantalla.
+// We describe what the parameter that this screen receives should look like.
 interface Props {
   params: Promise<{
     slug: string;
   }>;
 }
 
-// Describimos cómo se debería recibir la respuesta de la API.
+// We describe how the API response should be received.
 interface ApiResponse {
-  articles: NewsInterface[]; // La estructura de los datos a recibir se encuentra en NewsInterface[].
+  articles: NewsInterface[]; // The structure of the data to be received is in NewsInterface[].
 }
 
-// Pantalla que recibe un parámetro (Descrito en la interfaz Props).
+// Screen receiving a parameter (Described in the Props interface).
 export default function CategoryPage({ params }: Props) {
+  // State management
   const [category, setCategory] = useState<string | null>(null);
   const [data, setData] = useState<NewsInterface[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [spanishCategory, setSpanishCategory] = useState<string | null>(null);
 
-  // Asignar el parámetro `slug` al estado `category`.
   useEffect(() => {
+    // Function that assigns the `slug` parameter to the `category` state.
     const fetchParams = async () => {
       if ((await params).slug) {
-        const { slug } = await params; // Desempaquetamos la promesa
-        setCategory(slug); // Guardamos el parametro recibido en el estado category
+        const { slug } = await params; // We unpack the promise
+        setCategory(slug); // We store the received parameter in the category state.
       } else {
         console.error("El parámetro slug es nulo o no está definido");
       }
@@ -40,7 +42,7 @@ export default function CategoryPage({ params }: Props) {
     fetchParams();
   }, [params]);
 
-  // Cambia el nombre de la categoría a español.
+  // Change the category name to English.
   useEffect(() => {
     if (category) {
       switch (category) {
@@ -65,19 +67,23 @@ export default function CategoryPage({ params }: Props) {
     }
   }, [category]);
 
-  // Hacer la solicitud a la API.
+  // Make the API request.
   useEffect(() => {
+    //Checks if a category exists to send the request to the api
     if (category) {
       const fetchData = async () => {
         setLoading(true);
+        // The variable containing the apiKey is accessed.
         const apiKey = process.env.NEXT_PUBLIC_NEWS_API_KEY;
 
+        // Check if the apiKey exists.
         if (!apiKey) {
-          setError("API key is missing");
+          setError("La api key no existe");
           setLoading(false);
           return;
         }
 
+        // Petition to the api (required two params, category and apiKey)
         try {
           const response = await fetch(
             `https://newsapi.org/v2/top-headlines?category=${category}&apiKey=${apiKey}&pageSize=20`
@@ -101,6 +107,7 @@ export default function CategoryPage({ params }: Props) {
     }
   }, [category]);
 
+  //While the loading status is set to true, the loading component will be displayed.
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -109,6 +116,8 @@ export default function CategoryPage({ params }: Props) {
     );
   }
 
+
+  //While the error status is set to true, a error message will be display
   if (error) {
     return (
       <div className="flex flex-col justify-center h-screen text-center p-5">
@@ -137,6 +146,7 @@ export default function CategoryPage({ params }: Props) {
               },
             }}
           >
+            {/* Component that will load the letters with the information received from the api / required an array*/}
             <HorizontalCard data={[item]} />
           </Link>
         </div>

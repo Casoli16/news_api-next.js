@@ -35,6 +35,7 @@ export default function ThemeSwitcher() {
     "
       aria-label="Activar función"
     >
+      {/* Icon */}
       <FaLightbulb size={25} />
     </button>
   );
