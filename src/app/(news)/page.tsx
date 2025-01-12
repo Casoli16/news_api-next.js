@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import { NewsInterface } from "@/src/interfaces/NewsInterface";
 import { Button } from "@nextui-org/button";
-import { VerticalCard } from "../components/cards/verticalCard";
+import { VerticalCard } from "@/src/components/cards/verticalCard";
 import { Card, CardHeader, CardFooter, Image } from "@nextui-org/react";
-import { StaticCard } from "../components/cards/statitCard";
+import { StaticCard } from "@/src/components/cards/statitCard";
 import Link from "next/link";
 import { url } from "inspector";
-import { Loading } from "../components/loadComponent";
+import { Loading } from "../../components/loadComponent";
 
 //Describimos como se deberia recibir la respuesta de la api
 interface ApiResponse {

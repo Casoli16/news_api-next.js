@@ -12,8 +12,8 @@ import {
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import ThemeSwitcher from "../components/themeSwitcher";
-import { TopMenu } from "../components/ui/topMenu";
+import ThemeSwitcher from "../../components/themeSwitcher";
+import { TopMenu } from "@/src/components/ui/topMenu";
 
 interface SearchIconProps {
   size?: number;

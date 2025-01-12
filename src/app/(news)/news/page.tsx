@@ -9,7 +9,7 @@ import {
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NewsInterface } from "@/src/interfaces/NewsInterface";
-import { Loading } from "../../components/loadComponent";
+import { Loading } from "../../../components/loadComponent";
 import {
   EmailIcon,
   EmailShareButton,

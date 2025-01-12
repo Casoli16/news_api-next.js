@@ -1,7 +1,7 @@
 "use client";
 
-import { HorizontalCard } from "@/src/app/components/cards/horizontalCard";
-import { Loading } from "@/src/app/components/loadComponent";
+import { HorizontalCard } from "@/src/components/cards/horizontalCard";
+import { Loading } from "@/src/components/loadComponent";
 import { NewsInterface } from "@/src/interfaces/NewsInterface";
 import Link from "next/link";
 import { useEffect, useState } from "react";
