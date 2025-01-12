@@ -212,6 +212,7 @@ export default function DetailNewPage() {
               <p className="text-xs sm:text-sm">Publicado el {formattedDate}</p>
             </div>
 
+            {/* Social media icons */}
             <div className="mt-4 flex gap-4 mb-4 items-center">
               <WhatsappShareButton title={article.title} url={currentUrl}>
                 <WhatsappIcon size={28} round={true} />

@@ -1,14 +1,7 @@
 "use client";
 
 import { NewsInterface } from "@/src/interfaces/NewsInterface";
-import {
-  Card,
-  CardHeader,
-  CardFooter,
-  Image,
-  Button,
-  CardBody,
-} from "@nextui-org/react";
+import { Image } from "@nextui-org/react";
 
 //We write what the data we expect to receive should look like.
 interface CardProps {

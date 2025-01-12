@@ -116,7 +116,6 @@ export default function CategoryPage({ params }: Props) {
     );
   }
 
-
   //While the error status is set to true, a error message will be display
   if (error) {
     return (

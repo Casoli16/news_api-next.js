@@ -6,12 +6,11 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import useDarkMode from "../hooks/useDarkMode";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  
   //Hook to manage the change of theme
   const { mounted } = useDarkMode();
 
   // Prevent rendering until the hook is mounted.
-  if (!mounted) return null; 
+  if (!mounted) return null;
 
   return (
     //Wraps the entire NextUIProvider component inside the NextThemeProvider so that it can be applied.
