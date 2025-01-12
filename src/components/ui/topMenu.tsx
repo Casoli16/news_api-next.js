@@ -138,7 +138,7 @@ export const TopMenu = () => {
         </NavbarContent>
       </NavbarContent>
 
-      {/* Input */}
+      {/* Search input */}
       <NavbarContent
         as="div"
         justify="center"

@@ -11,6 +11,7 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 
+// Describes how the structure of the data expected to be received should look like.
 interface StatiCard {
   title: string;
   image: string;
@@ -18,6 +19,7 @@ interface StatiCard {
   color: string;
 }
 
+// Component receiving parameters (title, image, path and colour)
 export const StaticCard = ({ title, image, path, color }: StatiCard) => {
   return (
     <Link href={path}>

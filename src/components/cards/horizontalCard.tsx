@@ -10,15 +10,17 @@ import {
   CardBody,
 } from "@nextui-org/react";
 
+//We write what the data we expect to receive should look like.
 interface CardProps {
   data: NewsInterface[];
 }
 
+//Component receiving an array of objects
 export const HorizontalCard = ({ data }: CardProps) => {
   return (
     <div>
       {data.map((item, index) => {
-        // Formatear la fecha
+        // Change the date to a more readable format.
         const date = new Date(item.publishedAt);
         const formattedDate = date.toLocaleDateString("es-ES", {
           year: "numeric",

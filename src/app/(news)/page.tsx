@@ -2,17 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { NewsInterface } from "@/src/interfaces/NewsInterface";
-import { Button } from "@nextui-org/button";
 import { VerticalCard } from "@/src/components/cards/verticalCard";
-import { Card, CardHeader, CardFooter, Image } from "@nextui-org/react";
 import { StaticCard } from "@/src/components/cards/statitCard";
 import Link from "next/link";
-import { url } from "inspector";
 import { Loading } from "../../components/loadComponent";
 
-//Describimos como se deberia recibir la respuesta de la api
+//We write how the response should be received from the api
 interface ApiResponse {
-  articles: NewsInterface[]; //La estructura de los datos a recibir se encuentra en NewInterface[];
+  articles: NewsInterface[]; //The structure of the data to be received is in NewInterface[];
 }
 
 export default function Page() {
@@ -20,34 +17,34 @@ export default function Page() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  //UseEffect Se ejecuta al cargar la web
+  //UseEffect runs when loading the website
   useEffect(() => {
-    //Función que manda la petición a la api
+    //Function sending the request to the api
     const fetchNews = async () => {
       //Accedemos a la api key.
       const apiKey = process.env.NEXT_PUBLIC_NEWS_API_KEY;
 
-      //Revisamos si la api key viene bien, de lo contrario envia el mensaje de error
+      //Check if the api key is OK, otherwise it sends the error message
       if (!apiKey) {
         throw new Error("API key is missing");
       }
 
       try {
-        //Enviamos la petición para la api
+        //Send the request for the api
         const response = await fetch(
           `https://newsapi.org/v2/top-headlines?category=general&apiKey=${apiKey}&pageSize=20`
         );
 
-        //Verificamos si la respuesta de la api vino bien, de lo contrario mandamos un mensaje con el estatus recibido de la api
+        //We check if the response from the api came OK, if not we send a message with the status received from the api.
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message);
         }
 
-        //Convertimos la respuesta de la api a formato json
+        //Convert api response to json format
         const jsonData: ApiResponse = await response.json();
 
-        //Retornamos la data recibida de la api
+        //Returning the data received from the api
         setData(jsonData.articles);
       } catch (error) {
         setError((error as Error).message);
@@ -90,7 +87,7 @@ export default function Page() {
         Encuentra las noticias del último momento.
       </p>
       <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 mt-6 lg:mt-8">
-        {/* Sección principal de noticias */}
+        {/* Main news section */}
         <div className="w-full lg:w-3/4">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
             {data.map((item, index) => (
@@ -110,7 +107,7 @@ export default function Page() {
           </div>
         </div>
 
-        {/* Sección de categorías */}
+        {/* Category section */}
         <div className="w-full lg:w-1/4">
           <h2 className="text-lg md:text-xl font-bold mb-4">Categorías</h2>
           <div className="grid grid-cols-1 gap-4">

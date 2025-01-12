@@ -3,6 +3,7 @@ import Image from "next/image";
 
 export const Footer = () => {
   return (
+    // We apply tailwind classes that will allow to change the colours when changing the theme.
     <footer className="bg-gray-100 dark:bg-gray-900 text-black dark:text-white pt-5">
       <div className="flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-56 p-5">
         {/* Logo */}

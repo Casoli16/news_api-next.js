@@ -10,10 +10,12 @@ import {
   CardBody,
 } from "@nextui-org/react";
 
+//We write what the data we expect to receive should look like.
 interface CardProps {
   data: NewsInterface[];
 }
 
+//Component receiving an array of objects
 export const VerticalCard = ({ data }: CardProps) => {
   return (
     <div>
@@ -46,7 +48,8 @@ export const VerticalCard = ({ data }: CardProps) => {
               </p>
               <small className="text-default-500">
                 {shortDescription ||
-                  "La descripción de esta noticia aún no está disponible"}...
+                  "La descripción de esta noticia aún no está disponible"}
+                ...
               </small>
             </CardHeader>
           </Card>

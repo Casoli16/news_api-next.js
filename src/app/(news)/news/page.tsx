@@ -22,22 +22,22 @@ import {
 import { FaClockRotateLeft, FaLink } from "react-icons/fa6";
 import Link from "next/link";
 
-// Describimos cómo se debería recibir la respuesta de la API
+// We describe how the API response should be received.
 interface ApiResponse {
-  articles: NewsInterface[]; // La estructura de los datos a recibir se encuentra en NewsInterface[];
+  articles: NewsInterface[]; // The structure of the data to be received is in NewsInterface[];
 }
 
 export default function DetailNewPage() {
   const searchParams = useSearchParams();
 
-  // Obtenemos el título enviado por la URL.
+  // We get the title sent by the URL.
   const title = searchParams.get("title") || "";
 
-  //Obtenemos todo el titulo sin la parte despues del guión
+  //Obtain the whole title without the part after the hyphen.
   const titleParts = title.split(" - ");
   const query = titleParts[0];
 
-  // Obtenemos la primera palabra del titulo
+  // We get the first word of the title
   const relatedTitle = title.split(" ");
   const relatedQuery = relatedTitle.slice(0, 2).join(" ");
 
@@ -52,34 +52,34 @@ export default function DetailNewPage() {
   }, []);
 
   useEffect(() => {
-    // Función que manda la petición a la API
+    // Function that sends the request to the API
     const fetchData = async () => {
-      // Accedemos a la API key.
+      // We access the API key.
       const apiKey = process.env.NEXT_PUBLIC_NEWS_API_KEY;
 
-      // Revisamos si la API key viene bien, de lo contrario envía el mensaje de error
+      // Check if the API key is OK, otherwise send the error message
       if (!apiKey) {
         throw new Error("API key is missing");
       }
 
       try {
-        // Enviamos la petición para la API
-        // Enviamos la petición para la API
+        // We send the API request
         const response = await fetch(
           `https://newsapi.org/v2/everything?q="${encodeURIComponent(
             query
           )}"&searchIn=title&apiKey=${apiKey}&pageSize=1`
         );
 
-        // Verificamos si la respuesta de la API vino bien, de lo contrario mandamos un mensaje con el estatus recibido de la API
+        // We check if the API response came OK, if not we send a message with the status received from the API.
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          const errorData = await response.json();
+          throw new Error(errorData.message);
         }
 
-        // Convertimos la respuesta de la API a formato JSON
+        // We convert the API response to JSON format.
         const jsonData: ApiResponse = await response.json();
 
-        // Retornamos la data recibida de la API
+        // We return the data received from the API.
         setData(jsonData.articles);
       } catch (error) {
         setError((error as Error).message);
@@ -91,36 +91,36 @@ export default function DetailNewPage() {
     fetchData();
   }, [title]);
 
-  //Fetch que maneja la petición para traer los titulos relacionados
+  //Fetch which handles the request to fetch the related titles.
   useEffect(() => {
-    // Función que manda la petición a la API
+    // Function that sends the request to the API
     const fetchRelatedNews = async () => {
-      // Accedemos a la API key.
+      // We access the API key.
       const apiKey = process.env.NEXT_PUBLIC_NEWS_API_KEY;
 
-      // Revisamos si la API key viene bien, de lo contrario envía el mensaje de error
+      // Check if the API key is OK, otherwise send the error message
       if (!apiKey) {
         throw new Error("API key is missing");
       }
 
       try {
-        // Enviamos la petición para la API
+        // We send the API request
         const response = await fetch(
           `https://newsapi.org/v2/everything?q="${encodeURIComponent(
             relatedQuery
           )}"&apiKey=${apiKey}&pageSize=8`
         );
 
-        // Verificamos si la respuesta de la API vino bien, de lo contrario mandamos un mensaje con el estatus recibido de la API
+        // We check if the API response came OK, if not we send a message with the status received from the API.
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message);
         }
 
-        // Convertimos la respuesta de la API a formato JSON
+        // We convert the API response to JSON format.
         const jsonData: ApiResponse = await response.json();
 
-        // Retornamos la data recibida de la API
+        // We return the data received from the API.
         setRelatedData(jsonData.articles);
       } catch (error) {
         setError((error as Error).message);
@@ -132,6 +132,7 @@ export default function DetailNewPage() {
     fetchRelatedNews();
   }, []);
 
+  //Function that allows to copy the url of the page to the clipboard.
   const copyToClipboard = () => {
     navigator.clipboard
       .writeText(currentUrl)
@@ -165,6 +166,7 @@ export default function DetailNewPage() {
     );
   }
 
+  //In case the response from the api is correct, but does not come with data, the following message will be shown
   if (data.length === 0) {
     return (
       <div className="p-10 flex flex-col justify-center items-center h-screen text-center ">
@@ -182,6 +184,7 @@ export default function DetailNewPage() {
     <div className="flex flex-col lg:flex-row p-4 sm:p-10 lg:pl-16 lg:pt-12 lg:pb-14 gap-8 lg:gap-12">
       {data.map((article, index) => {
         const date = new Date(article.publishedAt);
+        //The date is converted to a more readable format.
         const formattedDate = date.toLocaleDateString("es-ES", {
           year: "numeric",
           month: "long",

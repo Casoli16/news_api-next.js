@@ -9,33 +9,36 @@ import { Loading } from "@/src/components/loadComponent";
 import { NewsInterface } from "@/src/interfaces/NewsInterface";
 import { useRouter } from "next/navigation";
 
-// Describimos cómo debe ser el parámetro que recibe esta pantalla.
+// We describe what the parameter that this screen receives should look like.
 interface Props {
   params: Promise<{
     slug: string;
   }>;
 }
 
-// Describimos cómo se debería recibir la respuesta de la API.
+// We describe how the API response should be received.
 interface ApiResponse {
-  articles: NewsInterface[]; // La estructura de los datos a recibir se encuentra en NewsInterface[].
+  articles: NewsInterface[]; // The structure of the data to be received is in NewsInterface[].
 }
 
 export default function SearchPage({ params }: Props) {
-  const [search, setSearch] = useState<string | null>(null); // Estado real que dispara la búsqueda
-  const [inputValue, setInputValue] = useState<string | null>(null); // Estado del input
+  const [search, setSearch] = useState<string | null>(null); // Initial search status
+  const [inputValue, setInputValue] = useState<string | null>(null); // Initial state of input
   const [data, setData] = useState<NewsInterface[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  //Hook for routing management
   const router = useRouter();
 
   useEffect(() => {
     const fetchParams = async () => {
       if ((await params).slug) {
         const { slug } = await params;
+        //The parameter sent by the url is decoded.
         const decodedSlug = decodeURIComponent(slug as string);
         setSearch(decodedSlug);
-        setInputValue(decodedSlug); // Sincroniza el input inicial con el parámetro
+        setInputValue(decodedSlug); // Synchronise the search input with the parameter
       } else {
         console.error("El parámetro slug es nulo o no está definido");
       }
@@ -45,24 +48,31 @@ export default function SearchPage({ params }: Props) {
   }, [params]);
 
   useEffect(() => {
+    // Function that sends the request to the API
     const fetchData = async () => {
+      // We access the API key.
       const apiKey = process.env.NEXT_PUBLIC_NEWS_API_KEY;
+      // Check if the API key is OK, otherwise send the error message
       if (!apiKey) throw new Error("API key is missing");
 
       try {
+        // We send the API request
         const response = await fetch(
           `https://newsapi.org/v2/everything?q="${encodeURIComponent(
             search || ""
           )}"&apiKey=${apiKey}&pageSize=20`
         );
 
+        // We check if the API response came OK, if not we send a message with the status received from the API.
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message);
         }
 
+        // We convert the API response to JSON format.
         const jsonData: ApiResponse = await response.json();
 
+        // We return the data received from the API.
         setData(jsonData.articles);
       } catch (error) {
         setError((error as Error).message);
@@ -74,18 +84,19 @@ export default function SearchPage({ params }: Props) {
     if (search) {
       fetchData();
     }
-  }, [search]);
+  }, [search]); // Runs every time the search status changes value.
 
-  // Implementación de debouncing
+  // Implementation of debouncing, to avoid too many requests being sent each time you type in the search input
   useEffect(() => {
     const handler = setTimeout(() => {
-      setSearch(inputValue); // Actualiza el estado `search` solo después de un retraso
-    }, 600); // Espera 500ms después de que el usuario deje de escribir
+      setSearch(inputValue); // Update search`status only after a delay
+    }, 600); // Wait 500ms after user stops typing
 
-    return () => clearTimeout(handler); // Limpia el temporizador en cada cambio
+    return () => clearTimeout(handler); // Clears the timer at each change
   }, [inputValue]);
 
   useEffect(() => {
+    //Check if there is a value for search, if so then the value of search will also be changed in the url.
     if (search) {
       router.push(`/search/${encodeURIComponent(search)}`);
     }
@@ -126,7 +137,7 @@ export default function SearchPage({ params }: Props) {
               placeholder="Buscar en Breaking News..."
               type="search"
               value={inputValue || ""}
-              onChange={(e) => setInputValue(e.target.value)} // Actualiza solo el valor del input
+              onChange={(e) => setInputValue(e.target.value)} // Update only the value of the input
             />
           </div>
         </div>
@@ -135,6 +146,7 @@ export default function SearchPage({ params }: Props) {
             <p className="sm:text-md md:text-xl font-bold mb-5 text-center">
               No se encontraron resultados para tu búsqueda.
             </p>
+            {/* Icon */}
             <FaSearch size={30} />
           </div>
         ) : (
